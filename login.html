@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rental Radiance - Register & Login</title>
+    <style>
+        body {
+            background-color: #EDEDE9;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .form-container {
+            background-color: #F5EBE0;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+        .form-container h2 {
+            color: #5C4033;
+        }
+        .form-container input {
+            width: 100%;
+            padding: 8px;
+            margin: 8px 0;
+            border-radius: 5px;
+            border: 1px solid #D6CCC2;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #D5BDAF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .form-container button:hover {
+            background-color: #E3D5CA;
+        }
+        .toggle-btn a {
+            color: #5C4033;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .toggle-btn a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="form-container" id="register-form">
+    <h2>Register</h2>
+    <form onsubmit="redirectToUserPage(event)">
+        <input type="text" name="username" placeholder="Enter Username" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <button type="submit">Register</button>
+    </form>
+    <div class="toggle-btn">
+        <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+    </div>
+</div>
+
+<div class="form-container" id="login-form" style="display: none;">
+    <h2>Login</h2>
+    <form action="user.html" method="POST">
+        <input type="text" name="username" placeholder="Enter Username" required>
+        <input type="password" name="password" placeholder="Enter Password" required>
+        <button type="submit">Login</button>
+    </form>
+    <div class="toggle-btn">
+        <p>Don't have an account? <a href="#" onclick="toggleForm()">Register</a></p>
+    </div>
+</div>
+
+<script>
+    function toggleForm() {
+        const registerForm = document.getElementById('register-form');
+        const loginForm = document.getElementById('login-form');
+        if (registerForm.style.display === 'none') {
+            registerForm.style.display = 'block';
+            loginForm.style.display = 'none';
+        } else {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+        }
+    }
+
+    function redirectToUserPage(event) {
+        event.preventDefault(); // Prevent the form from submitting
+        window.location.href = "user.html"; // Redirect to user dashboard
+    }
+</script>
+</body>
+</html>

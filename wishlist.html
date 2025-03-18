@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wishlist - Rental Radiance</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8ff;
+        }
+        .header {
+            background-color: #af874c;
+            color: rgb(238, 214, 179);
+            padding: 10px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .wishlist-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .wishlist-item img {
+            width: 80px;
+            border-radius: 5px;
+        }
+        .wishlist-item .info {
+            flex: 1;
+            margin-left: 15px;
+        }
+        .wishlist-item h3 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .wishlist-item p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #555;
+        }
+        .wishlist-item .actions {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .remove-btn {
+            background-color: red;
+            color: white;
+        }
+        .cart-btn {
+            background-color: #af874c;
+            color: white;
+        }
+        .empty-message {
+            text-align: center;
+            font-size: 18px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+    <h1>My Wishlist</h1>
+</div>
+
+<!-- Wishlist Container -->
+<div class="container" id="wishlist-container">
+    <p class="empty-message">Your wishlist is empty. Start adding dresses!</p>
+</div>
+
+<script>
+    // Fetch wishlist from localStorage
+    let wishlist = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+    // Wishlist container
+    const wishlistContainer = document.getElementById("wishlist-container");
+
+    function displayWishlist() {
+        wishlistContainer.innerHTML = "";
+
+        if (wishlist.length === 0) {
+            wishlistContainer.innerHTML = '<p class="empty-message">Your wishlist is empty. Start adding dresses!</p>';
+            return;
+        }
+
+        wishlist.forEach((item, index) => {
+            const wishlistItem = document.createElement("div");
+            wishlistItem.classList.add("wishlist-item");
+
+            wishlistItem.innerHTML = `
+                <img src="${item.image}" alt="${item.name}">
+                <div class="info">
+                    <h3>${item.name}</h3>
+                    <p>${item.price}</p>
+                </div>
+                <div class="actions">
+                    <button class="cart-btn" onclick="moveToCart(${index})">Move to Cart</button>
+                    <button class="remove-btn" onclick="removeFromWishlist(${index})">Remove</button>
+                </div>
+            `;
+
+            wishlistContainer.appendChild(wishlistItem);
+        });
+    }
+
+    function removeFromWishlist(index) {
+        wishlist.splice(index, 1);
+        localStorage.setItem("wishlist", JSON.stringify(wishlist));
+        displayWishlist();
+    }
+
+    function moveToCart(index) {
+        let cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.push(wishlist[index]);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        
+        removeFromWishlist(index);
+        alert("Item moved to cart!");
+    }
+
+    displayWishlist();
+</script>
+
+</body>
+</html>
